@@ -8,7 +8,6 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -28,23 +27,21 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 )
 public class PostgresqlDSConfig {
 
-	@Bean(name = "postgresqlDS")
+	@Bean
 	@ConfigurationProperties(prefix = "postgresql.datasource")
-	public DataSource dataSource() {
+	public DataSource postgresqlDS() {
 		return DataSourceBuilder.create().build();
 	}
 
-	@Primary
-	@Bean(name = "postgresqlEMF")
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder,
+	@Bean
+	public LocalContainerEntityManagerFactoryBean postgresqlEMF(EntityManagerFactoryBuilder builder,
 			DataSource postgresqlDS) {
 		return builder.dataSource(postgresqlDS).packages("narayan.sdata.multids.postgresql.entity")
 				.persistenceUnit("postgresql").build();
 	}
 
-	@Primary
-	@Bean(name = "postgresqlTM")
-	public PlatformTransactionManager transactionManager(EntityManagerFactory postgresqlEMF) {
+	@Bean
+	public PlatformTransactionManager postgresqlTM(EntityManagerFactory postgresqlEMF) {
 		return new JpaTransactionManager(postgresqlEMF);
 	}
 }

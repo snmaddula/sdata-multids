@@ -8,7 +8,6 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -28,23 +27,21 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 )
 public class OracleDSConfig {
 
-	@Bean(name = "oracleDS")
+	@Bean
 	@ConfigurationProperties(prefix = "oracle.datasource")
-	public DataSource dataSource() {
+	public DataSource oracleDS() {
 		return DataSourceBuilder.create().build();
 	}
 
-	@Primary
-	@Bean(name = "oracleEMF")
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder,
+	@Bean
+	public LocalContainerEntityManagerFactoryBean oracleEMF(EntityManagerFactoryBuilder builder,
 			DataSource oracleDS) {
 		return builder.dataSource(oracleDS).packages("narayan.sdata.multids.oracle.entity")
 				.persistenceUnit("oracle").build();
 	}
 
-	@Primary
-	@Bean(name = "oracleTM")
-	public PlatformTransactionManager transactionManager(EntityManagerFactory oracleEMF) {
+	@Bean
+	public PlatformTransactionManager oracleTM(EntityManagerFactory oracleEMF) {
 		return new JpaTransactionManager(oracleEMF);
 	}
 }
