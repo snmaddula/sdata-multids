@@ -1,0 +1,33 @@
+spring:
+  jpa:
+    database: default
+    
+    
+oracle: 
+  datasource: 
+    url: 
+    username: 
+    password: 
+    driver-class-name: 
+
+postgresql: 
+  datasource: 
+    url: 
+    username: 
+    password: 
+    driver-class-name: 
+    
+mysql: 
+  datasource: 
+    url: 
+    username: 
+    password: 
+    driver-class-name:
+    
+    
+h2: 
+  datasource: 
+    url: 
+    username: 
+    password: 
+    driver-class-name: 
